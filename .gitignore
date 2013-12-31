@@ -1,0 +1,4 @@
+*.png
+*.bak
+*.py[co]
+*.sublime*

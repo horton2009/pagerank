@@ -3,6 +3,8 @@
 
 from numpy import *
 import numpy.linalg
+import networkx as nx
+import matplotlib.pyplot as plt
 import pdb
 
 
@@ -72,14 +74,47 @@ class pagerankHandler(object):
 			pass
 
 
+
+	def draw_graph(self, pagelinkTable, it=55):
+		self.node_size = 20
+		self.G = nx.DiGraph()  # Create a Graph object
+		print len(pagelinkTable)
+		for i in range(len(pagelinkTable)):
+			self.G.add_node(str(i))
+		for i in range(len(pagelinkTable)):
+			for k in range(len(pagelinkTable[i])):
+				if pagelinkTable[i][k] == 1:
+					self.G.add_edge(str(i), str(k))
+
+
+		pos = nx.spring_layout(self.G, iterations=it)
+		nx.draw_networkx_edges(self.G, pos, alpha=0.1)
+		nx.draw_networkx_nodes(
+			self.G,
+			pos,
+			node_size = self.node_size,
+			alpha = 0.8
+		)
+		plt.axis('off')
+		try:
+			plt.savefig("webGraph.png", dpi=200)
+			plt.clf()
+		except Exception, e:
+			print e
+			time.sleep(5)
+			sys.exit()
+
+
+
 if __name__ == '__main__':
-	pagelinkTable = (( 0, 1, 1, 1, 1, 0, 1),
-					( 1, 0, 0, 0, 0, 0, 0),
-					( 1, 1, 0, 0, 0, 0, 0),
+	pagelinkTable = (( 0, 1, 1, 0, 1, 0, 1),
+					( 1, 0, 0, 1, 0, 0, 0),
+					( 1, 1, 0, 0, 1, 0, 0),
 					(0, 1, 1, 0, 1, 0, 0),
-					(1, 0, 1, 1, 0, 1, 0),
-					( 1, 0, 0, 0, 1, 0, 0),
-					(0, 0, 0, 0, 1, 0, 0))
+					(1, 0, 1, 1, 0, 1, 1),
+					( 0, 0, 0, 0, 1, 0, 0),
+					(1, 0, 0, 0, 1, 0, 0))
 	pagerankInit = (0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25)
 	mypagerankHandler = pagerankHandler()
-	mypagerankHandler.calc_iteratation(1, pagerankInit, pagelinkTable, 0, 100)
+	# mypagerankHandler.calc_iteratation(0.85, pagerankInit, pagelinkTable, 0, 100)
+	mypagerankHandler.draw_graph(pagelinkTable)
