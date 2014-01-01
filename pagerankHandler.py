@@ -5,7 +5,7 @@ from numpy import *
 import numpy.linalg
 import networkx as nx
 import matplotlib.pyplot as plt
-import pdb
+# import pdb
 
 
 class pagerankHandler(object):
@@ -47,7 +47,6 @@ class pagerankHandler(object):
 			print pagerank
 			return pagerank
 		elif iteration == 0:
-			# pdb.set_trace()
 			pagerank = pagerankInit
 			k_iteration = 0
 			while(1):
@@ -116,5 +115,5 @@ if __name__ == '__main__':
 					(1, 0, 0, 0, 1, 0, 0))
 	pagerankInit = (0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25)
 	mypagerankHandler = pagerankHandler()
-	# mypagerankHandler.calc_iteratation(0.85, pagerankInit, pagelinkTable, 0, 100)
+	mypagerankHandler.calc_iteratation(0.85, pagerankInit, pagelinkTable, 0, 100)
 	mypagerankHandler.draw_graph(pagelinkTable)
